@@ -10,8 +10,6 @@
 
 @interface AUMediaLibrary()
 
-@property (nonatomic, strong) NSOperationQueue *writeInBackgroundQueue;
-
 @end
 
 @implementation AUMediaLibrary
@@ -21,16 +19,13 @@
         // Initialize Realm Database
         [RLMRealm defaultRealm];
         
-        // Initialize background operation queue
-        _writeInBackgroundQueue = [[NSOperationQueue alloc] init];
-        
     }
     
     return self;
 }
 
-- (NSData *)itemData:(id<AUItem>)item {
-    RLMObject<AUItem> *rlm_Item = [self _rlmObjectFromItem:item];
+- (NSData *)itemData:(AUMediaItem *)item {
+    AUMediaItem *rlm_Item = [self _rlmObjectFromItem:item];
     
     if (!rlm_Item) {
         return nil;
@@ -41,35 +36,28 @@
     return data;
 }
 
-- (void)saveItem:(id<AUItem>)item {
+- (void)saveItem:(AUMediaItem *)item {
     RLMRealm *realm = [RLMRealm defaultRealm];
     
-    [_writeInBackgroundQueue addOperationWithBlock:^{
-        [realm beginWriteTransaction];
-        [realm addObject:item];
-        [realm commitWriteTransaction];
-    }];
+    [realm beginWriteTransaction];
+    [realm addObject:item];
+    [realm commitWriteTransaction];
     
 }
 
-- (void)removeItem:(id<AUItem>)item {
+- (void)removeItem:(AUMediaItem *)item {
     RLMRealm *realm = [RLMRealm defaultRealm];
+    RLMArray *array = [RLMObject objectsInRealm:realm withPredicate:[NSPredicate predicateWithFormat:@"uid == %@", item.uid]];
     
-    [_writeInBackgroundQueue addOperationWithBlock:^{
-        
-        RLMArray *array = [RLMObject objectsInRealm:realm
-                                      withPredicate:[NSPredicate predicateWithFormat:@"uid == %@", item.uid]];
-        
-        for (RLMObject *object in array) {
-            [realm deleteObject:object];
-        }
-        
-    }];
+    for (RLMObject *object in array) {
+        [realm deleteObject:object];
+    }
+    
 }
 
 #pragma mark - Private
 
-- (RLMObject<AUItem> *)_rlmObjectFromItem:(id<AUItem>)item {
+- (AUMediaItem *)_rlmObjectFromItem:(AUMediaItem *)item {
     RLMRealm *realm = [RLMRealm defaultRealm];
     
     RLMArray *array = [RLMObject objectsInRealm:realm withPredicate:[NSPredicate predicateWithFormat:@"uid == %@", item.uid]];

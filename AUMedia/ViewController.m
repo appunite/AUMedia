@@ -8,13 +8,15 @@
 
 #import "ViewController.h"
 #import "AUMedia.h"
-#import "AUMediaExampleItem.h"
+#import "AUMediaItem.h"
+
+static void *AUMediaProgressObserverContext = &AUMediaProgressObserverContext;
 
 @interface ViewController ()
 @property (strong, nonatomic) IBOutlet UIProgressView *downloadAudioProgress;
 @property (strong, nonatomic) IBOutlet UITextField *audioPathTextField;
 @property (strong, nonatomic) IBOutlet UISlider *audioslider;
-
+@property (strong, nonatomic) AUMediaItem *audioItem;
 @end
 
 @implementation ViewController
@@ -23,7 +25,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    [[AUMedia sharedInstance] setAudioProgressBlock:^(int percentage, CGFloat elapsedTime, CGFloat timeRemaining, NSError *error, BOOL finished, id<AUItem> item) {
+    [[AUMedia sharedInstance] setAudioProgressBlock:^(int percentage, CGFloat elapsedTime, CGFloat timeRemaining, NSError *error, BOOL finished, AUMediaItem *item) {
 
         if (_audioslider.maximumValue != timeRemaining + elapsedTime) {
             [_audioslider setMinimumValue:0];
@@ -60,16 +62,44 @@
 }
 
 - (IBAction)downloadAudio:(id)sender {
-    [[AUMedia sharedInstance] downloadMediaItem:[self audioItem]];
+    BOOL started = [[AUMedia sharedInstance] downloadMediaItem:[self audioItem]];
+    
+    if (started) {
+        NSProgress *progress= [[AUMedia sharedInstance] progressForItem:[self audioItem]];
+        [_downloadAudioProgress setProgress:progress.fractionCompleted];
+        [progress addObserver:self
+                   forKeyPath:NSStringFromSelector(@selector(fractionCompleted))
+                      options:NSKeyValueObservingOptionInitial
+                      context:AUMediaProgressObserverContext];
+    } else {
+        [_downloadAudioProgress setProgress:1.0f animated:YES];
+    }
 }
 
-- (AUMediaExampleItem *)audioItem {
-    AUMediaExampleItem *item = [[AUMediaExampleItem alloc] init];
-    [item setRemotePath:_audioPathTextField.text];
-    [item setUid:2];
-    [item setType:AUAudioItemType];
+- (AUMediaItem *)audioItem {
+    if (!_audioItem) {
+        _audioItem = [[AUMediaItem alloc] init];
+        [_audioItem setRemotePath:_audioPathTextField.text];
+        [_audioItem setUid:2];
+        [_audioItem setType:AUAudioItemType];
+    }
     
-    return item;
+    return _audioItem;
+}
+
+#pragma mark - Progress Observer
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (context == AUMediaProgressObserverContext) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            NSProgress *progress = object;
+            [self.downloadAudioProgress setProgress:progress.fractionCompleted animated:YES];
+        }];
+        
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object
+                               change:change context:context];
+    }
 }
 
 @end

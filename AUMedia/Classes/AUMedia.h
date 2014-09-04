@@ -11,7 +11,11 @@
 #import "AUAudioPlayer.h"
 #import "AUMediaDownloadManager.h"
 
-typedef void(^AUMediaAudioPlayerProgressBlock)(int percentage, CGFloat elapsedTime, CGFloat timeRemaining, NSError *error, BOOL finished, id<AUItem> item);
+extern NSString *const kAUMediaDownloadStartedNotification;
+extern NSString *const kAUMediaDownloadFinishedNotification;
+extern NSString *const kAUMediaDownloadErrorNotification;
+
+typedef void(^AUMediaAudioPlayerProgressBlock)(int percentage, CGFloat elapsedTime, CGFloat timeRemaining, NSError *error, BOOL finished, AUMediaItem *item);
 typedef void(^AUMediaDownloadProgressBlock)(int percentage, NSInteger downloadedBytes, NSInteger totalBytes);
 
 @interface AUMedia : NSObject
@@ -23,12 +27,15 @@ typedef void(^AUMediaDownloadProgressBlock)(int percentage, NSInteger downloaded
 @property (nonatomic, strong, readonly) AUMediaDownloadManager *downloadManager;
 @property (nonatomic, copy) AUMediaAudioPlayerProgressBlock audioProgressBlock;
 
-- (void)openMediaItem:(id<AUItem>)item;
-- (void)downloadMediaItem:(id<AUItem>)item;
+@property (nonatomic, strong, readonly) NSMutableArray *downloadingItems;
 
-- (NSArray *)downloadingItems;
-- (NSArray *)downloadedItems;
+- (NSProgress *)progressForItem:(AUMediaItem *)item;
 
-- (CGFloat)progressOfDownloadingItem:(id<AUItem>)item;
+- (void)openMediaItem:(AUMediaItem *)item;
+- (BOOL)downloadMediaItem:(AUMediaItem *)item;
+
+
+- (CGFloat)progressOfDownloadingItem:(AUMediaItem *)item;
+
 
 @end

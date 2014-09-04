@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		240AEDA619A336150037A226 /* AUMediaExampleItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 240AEDA519A336150037A226 /* AUMediaExampleItem.m */; };
+		240AEDA619A336150037A226 /* AUMediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 240AEDA519A336150037A226 /* AUMediaItem.m */; };
 		240AEDA919A34EA10037A226 /* AUMediaDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 240AEDA819A34EA10037A226 /* AUMediaDownloadManager.m */; };
 		2426519819A1DA5000DD8EA4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2426519719A1DA5000DD8EA4 /* main.m */; };
 		2426519B19A1DA5000DD8EA4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2426519A19A1DA5000DD8EA4 /* AppDelegate.m */; };
@@ -32,8 +32,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		240AEDA419A336150037A226 /* AUMediaExampleItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUMediaExampleItem.h; sourceTree = "<group>"; };
-		240AEDA519A336150037A226 /* AUMediaExampleItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUMediaExampleItem.m; sourceTree = "<group>"; };
+		240AEDA419A336150037A226 /* AUMediaItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUMediaItem.h; sourceTree = "<group>"; };
+		240AEDA519A336150037A226 /* AUMediaItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUMediaItem.m; sourceTree = "<group>"; };
 		240AEDA719A34EA10037A226 /* AUMediaDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AUMediaDownloadManager.h; path = Classes/AUMediaDownloadManager.h; sourceTree = "<group>"; };
 		240AEDA819A34EA10037A226 /* AUMediaDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AUMediaDownloadManager.m; path = Classes/AUMediaDownloadManager.m; sourceTree = "<group>"; };
 		2426519219A1DA5000DD8EA4 /* AUMedia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AUMedia.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,7 +50,6 @@
 		242651AE19A1DA5000DD8EA4 /* AUMediaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUMediaTests.m; sourceTree = "<group>"; };
 		246EF9F019A1EDC2001655B9 /* AUMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AUMedia.h; path = Classes/AUMedia.h; sourceTree = "<group>"; };
 		246EF9F119A1EDC2001655B9 /* AUMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AUMedia.m; path = Classes/AUMedia.m; sourceTree = "<group>"; };
-		246EF9F419A1F77A001655B9 /* AUItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AUItem.h; path = Classes/AUItem.h; sourceTree = "<group>"; };
 		246EF9F519A1FA96001655B9 /* AUMediaLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AUMediaLibrary.h; path = Classes/AUMediaLibrary.h; sourceTree = "<group>"; };
 		246EF9F619A1FA96001655B9 /* AUMediaLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AUMediaLibrary.m; path = Classes/AUMediaLibrary.m; sourceTree = "<group>"; };
 		246EF9F819A20EE0001655B9 /* AUAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AUAudioPlayer.h; path = Classes/AUAudioPlayer.h; sourceTree = "<group>"; };
@@ -105,8 +104,8 @@
 				2426519A19A1DA5000DD8EA4 /* AppDelegate.m */,
 				2426519C19A1DA5000DD8EA4 /* ViewController.h */,
 				2426519D19A1DA5000DD8EA4 /* ViewController.m */,
-				240AEDA419A336150037A226 /* AUMediaExampleItem.h */,
-				240AEDA519A336150037A226 /* AUMediaExampleItem.m */,
+				240AEDA419A336150037A226 /* AUMediaItem.h */,
+				240AEDA519A336150037A226 /* AUMediaItem.m */,
 				2426519F19A1DA5000DD8EA4 /* Main.storyboard */,
 				242651A219A1DA5000DD8EA4 /* Images.xcassets */,
 				2426519519A1DA5000DD8EA4 /* Supporting Files */,
@@ -146,7 +145,6 @@
 			children = (
 				246EF9F019A1EDC2001655B9 /* AUMedia.h */,
 				246EF9F119A1EDC2001655B9 /* AUMedia.m */,
-				246EF9F419A1F77A001655B9 /* AUItem.h */,
 				246EF9F519A1FA96001655B9 /* AUMediaLibrary.h */,
 				246EF9F619A1FA96001655B9 /* AUMediaLibrary.m */,
 				246EF9F819A20EE0001655B9 /* AUAudioPlayer.h */,
@@ -305,7 +303,7 @@
 				246EF9FA19A20EE0001655B9 /* AUAudioPlayer.m in Sources */,
 				240AEDA919A34EA10037A226 /* AUMediaDownloadManager.m in Sources */,
 				246EF9F219A1EDC2001655B9 /* AUMedia.m in Sources */,
-				240AEDA619A336150037A226 /* AUMediaExampleItem.m in Sources */,
+				240AEDA619A336150037A226 /* AUMediaItem.m in Sources */,
 				2426519819A1DA5000DD8EA4 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

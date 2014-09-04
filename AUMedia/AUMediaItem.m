@@ -6,8 +6,12 @@
 //  Copyright (c) 2014 Appunite. All rights reserved.
 //
 
-#import "AUMediaExampleItem.h"
+#import "AUMediaItem.h"
 
-@implementation AUMediaExampleItem
+@implementation AUMediaItem
+
+- (NSString *)taskIdentifier {
+    return [NSString stringWithFormat:@"%ld", self.uid];
+}
 
 @end

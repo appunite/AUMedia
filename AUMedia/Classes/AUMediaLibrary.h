@@ -7,14 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AUItem.h"
 #import <Realm/Realm.h>
+#import "AUMediaItem.h"
 
 @interface AUMediaLibrary : NSObject
 
-- (NSData *)itemData:(id<AUItem>)item;
+- (NSData *)itemData:(AUMediaItem *)item;
 
-- (void)saveItem:(id<AUItem>)item;
-- (void)removeItem:(id<AUItem>)item;
+- (void)saveItem:(AUMediaItem *)item;
+- (void)removeItem:(AUMediaItem *)item;
 
 @end

@@ -23,25 +23,48 @@ static NSString *kAUMediaDownloadManagerIdentifier = @"kAUMediaDownloadManagerId
     return self;
 }
 
-- (NSProgress *)downloadItem:(id<AUItem>)item {
+- (NSProgress *)downloadItem:(AUMediaItem *)item {
     
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[item remotePath]]];
     
     NSProgress *progress = [[NSProgress alloc] init];
     
     NSURLSessionDownloadTask *downloadTask = [self downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        NSData *data = [NSData dataWithContentsOfURL:targetPath];
+        
         [item setLocalPath:[targetPath absoluteString]];
+        
         [[[AUMedia sharedInstance] mediaLibrary] saveItem:item];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kAUMediaDownloadFinishedNotification object:nil];
+        
         return targetPath;
+        
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        
         
     }];
     
+    [downloadTask setTaskDescription:item.taskIdentifier];
+    
     [downloadTask resume];
-
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kAUMediaDownloadStartedNotification object:nil];
     
     return progress;
+}
+
+- (void)saveItem:(AUMediaItem *)item withLocalPath:(NSString *)filePath {
+    
+}
+
+- (NSURLSessionDownloadTask *)downloadTaskForItem:(AUMediaItem *)item {
+    for (NSURLSessionDownloadTask *task in self.downloadTasks) {
+        if ([task.taskDescription isEqualToString:item.taskIdentifier]) {
+            return task;
+        }
+    }
+    
+    return nil;
 }
 
 @end

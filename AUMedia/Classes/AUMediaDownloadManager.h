@@ -7,11 +7,12 @@
 //
 
 #import "AFURLSessionManager.h"
-#import "AUItem.h"
+#import "AUMediaItem.h"
 
 @interface AUMediaDownloadManager : AFURLSessionManager
 
 - (instancetype)sharedClient;
-- (NSProgress *)downloadItem:(id<AUItem>)item;
+- (NSProgress *)downloadItem:(AUMediaItem *)item;
+- (NSURLSessionDownloadTask *)downloadTaskForItem:(AUMediaItem *)item;
 
 @end
